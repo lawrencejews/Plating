@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { createServer } = require('http');
 const url = require('url');
 const axios = require('axios');
@@ -5,6 +6,8 @@ const chalk = require('chalk');
 
 const REST_KEY = process.env.REACT_APP_REST_API_KEY;
 const REACT_APP_REDIRECT = process.env.REACT_APP_REDIRECT_URI;
+// const KEYS_AUTH =
+//     `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_KEY}&redirect_uri=${REACT_APP_REDIRECT}dapi.kakao.com/v2/search?q=${search}`;
 
 const headers = {
     'Content-Type': 'application/json',
@@ -17,7 +20,7 @@ const server = createServer((req, res) => {
     const decodedParams = decodeParams(new URLSearchParams(requestURL.search));
     const { search } = decodedParams;
     const targetURL =
-        `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_KEY}&redirect_uri=${REACT_APP_REDIRECT}/v2/?q=${search}`;
+        `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_KEY}&redirect_uri=${REACT_APP_REDIRECT}search?q=${search}`;
     if (req.method === 'GET') {
         console.log(chalk.green(`Proxy GET request to : ${targetURL}`));
         axios.get(targetURL)

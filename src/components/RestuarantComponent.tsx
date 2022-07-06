@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-key */
 import { IRestuarant } from "./IRestuarant";
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const RecipeComponent = (props: { restuarant: IRestuarant }) => {
   const { restuarant } = props;
   return (

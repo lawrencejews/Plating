@@ -1,50 +1,31 @@
-import  { FormEvent, useEffect, useState } from 'react';
-import './App.css';
-import { IRestuarant } from './IRestuarant';
-import RestuarantComponent from './RestuarantComponent';
+import { StrictMode } from 'react';
+import { render } from 'react-dom';
+import './styles.css';
+import { SearchParams } from './components/SearchParams';
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Home  from './components/Home';
+import  Login  from './components/Login';
 
 
-
-function App() {
-  const [restuarantFound, setResturantFound] = useState<IRestuarant[]>([]);
-  const [restuarantSearch, setRestuarantSearch] = useState('');
-
-  const searchForRestuarant = async (query: String): Promise<IRestuarant[]> => {
-    const result = await fetch(`http://localhost:3001/dapi.kakao.com/v2/?search=${query}`)
-    return (await result.json()).results;
-  };
-
-  useEffect(() => {
-    (async () => {
-      const query = encodeURIComponent(restuarantSearch);
-      const response = await searchForRestuarant(query);
-      setResturantFound(response);
-    })();
-  }, [restuarantSearch]);
-
-  const search = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const input = form.querySelector('#searchText') as HTMLInputElement;
-    setRestuarantSearch(input.value);
-    input.value = '';
-  };
+const App = () => {
 
   return (
-    <div className="App">
-      <h1>Restuarant Search App</h1>
-      <form className="searchForm" onSubmit={event => search(event)} >
-        <input id="searchText" type="text" />
-        <button>Search</button>
-      </form>
-      {restuarantSearch && <p>Results for {restuarantSearch}...</p>}
-      <div className="recipes-container">
-        {restuarantFound.length &&
-          restuarantFound.map(restuarant =>
-            (<RestuarantComponent key={restuarant.href} restuarant={restuarant}></RestuarantComponent>))
-        }
-      </div>
-    </div>
+    <StrictMode>
+      <BrowserRouter>
+        <header className='navbar-container'>
+          <Link to="/">Home</Link>
+          <Link to="/SearchParams">Search Restuarants</Link>
+          <Link to="/Login">Login</Link>
+          <Link to="/Logout">Logout</Link>
+        </header>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/SearchParams" element={<SearchParams />} />
+          <Route path="/Login" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+    </StrictMode>
   );
-}
-export default App;
+};
+
+render(<App />, document.getElementById("root"));
