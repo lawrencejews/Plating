@@ -1,29 +1,39 @@
-import { StrictMode } from 'react';
+import { StrictMode} from 'react';
 import { render } from 'react-dom';
 import './styles.css';
 import { SearchParams } from './components/SearchParams';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Home  from './components/Home';
-import  Login  from './components/Login';
+import { BrowserRouter, Route, Routes, } from "react-router-dom";
+import Home from './screens/Home';
+import Login from './screens/Login';
+import './bootstrap.min.css';
+import { Container } from 'react-bootstrap';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Signup from './screens/SignupForm';
+import { Provider } from 'react-redux';
+import store from './store';
 
 
 const App = () => {
 
   return (
     <StrictMode>
-      <BrowserRouter>
-        <header className='navbar-container'>
-          <Link to="/">Home</Link>
-          <Link to="/SearchParams">Search Restuarants</Link>
-          <Link to="/Login">Login</Link>
-          <Link to="/Logout">Logout</Link>
-        </header>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/SearchParams" element={<SearchParams />} />
-          <Route path="/Login" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Header />
+          <main>
+            <Container>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/Login" element={<Login />} />
+                <Route path="/Signup" element={<Signup />} />
+                <Route path="/SearchParams" element={<SearchParams />} />
+              </Routes>
+            </Container>
+          </main>
+          <Footer />
+        </BrowserRouter>
+      </Provider>
     </StrictMode>
   );
 };

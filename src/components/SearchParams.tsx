@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react'
-import { IRestuarant } from './IRestuarant';
+import { IRestuarant } from '../IRestuarant';
 import RestuarantComponent from './RestuarantComponent';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -9,7 +9,7 @@ export const SearchParams = () => {
 
   const searchForRestuarant = async (query: string): Promise<IRestuarant[]> => {
     const result = await fetch(`http://localhost:3001/dapi.kakao.com/v2/?search=${query}`)
-    return (await result.json()).results;
+    return (await result.json()).result;
   };
 
   useEffect(() => {
